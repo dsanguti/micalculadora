@@ -3,40 +3,48 @@ import { useState } from "react";
 import "./App.css";
 import Boton from "./components/Boton";
 import BotonClear from "./components/BotonClear";
+import Logo from "./components/Logo";
 import Pantalla from "./components/Pantalla";
-import freCodeCampLogo from "./img/freecodecamp-logo.svg";
 
 function App() {
+  const operadores = ["+", "-", "*", "/"];
+
   const [input, setInput] = useState("");
+  const [error, setError] = useState("");
 
   const agregarInput = (val) => {
-    setInput(input + val);
+    if (
+      operadores.includes(val) &&
+      (input === "" || operadores.includes(input.slice(-1)))
+    ) {
+      setError("No se puede introducir dos operadores consecutivos.");
+    } else {
+      setInput(input + val);
+      setError(""); // Limpiar el error si todo está bien
+    }
   };
 
   const calculaResultado = () => {
     try {
-      // Limpiar la entrada para eliminar espacios u otros caracteres no deseados
-      const resultado = evaluate(input.replace(/\s+/g, ""));
-      setInput(resultado.toString()); // Asegurarse de que el resultado se convierte a string si es necesario
+      const resultado = evaluate(input);
+      setInput(resultado.toString());
+      setError(""); // Limpiar el error si la evaluación fue exitosa
     } catch (error) {
-      console.error("Error al evaluar la expresión:", error);
-      // Opcional: Mostrar un mensaje al usuario o simplemente no actualizar el input
-      setInput("Error"); // Así el usuario sabe que hubo un error
+      setError("Operación no válida");
+      setInput("");
     }
   };
 
   return (
     <div className="App">
-      <div className="freecodecamp-logo-contenedor">
-        <h4 className="titulo-logo"> FreeCodeCamp</h4>
-        <img
-          src={freCodeCampLogo}
-          className="freecodecamp-logo"
-          alt="logo de freeCodeCamp"
-        />
+      <Logo />
+      <div className={`error-message ${error ? 'show' : ''}`}>
+        {error}
       </div>
+     
       <div className="contenedor-calculadora">
         <Pantalla input={input} />
+
         <div className="fila">
           <Boton manejarClic={agregarInput}> 1 </Boton>
           <Boton manejarClic={agregarInput}> 2 </Boton>

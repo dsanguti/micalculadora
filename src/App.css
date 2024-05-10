@@ -8,6 +8,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .freecodecamp-logo {
@@ -23,27 +24,48 @@
   font-weight: 400;
   font-style: normal;
 }
-.freecodecamp-logo-contenedor{
-display: flex;
-width: 100%;
-height: 50px;
-margin: 8px;
-align-items: center;
-justify-content: center;
+.freecodecamp-logo-contenedor {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  margin: 8px;
+  align-items: center;
+  justify-content: center;
 }
 
-.contenedor-calculadora{
-width: 400px;
-height: 600px;
-padding: 14px;
-background-color: #99c9ff;
-border-radius: 20px;
-border: 5px solid white;
+.contenedor-calculadora {
+  width: 400px;
+  height: 600px;
+  padding: 14px;
+  background-color: #99c9ff;
+  border-radius: 20px;
+  border: 5px solid white;
 }
 
-.fila{
-margin: 4px;
-display: flex;
-align-items: center;
-justify-content: center;
+.fila {
+  margin: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.error-message {
+  padding: 5px;
+  margin-bottom: 5px;
+  color: #842129;
+  background-color: #f8d7db;
+  border-radius: 5px;
+  opacity: 0; /* Inicialmente transparente */
+  transform: translateY(-20px); /* Inicia un poco hacia arriba */
+  transition: opacity 0.9s ease, transform 0.9s ease; /* Transición suave para ambas propiedades */
+  visibility: hidden; /* Oculto inicialmente */
+  max-height: 0; /* Asegúrate de que no ocupe espacio al inicio */
+}
+
+.error-message.show {
+  opacity: 1; /* Totalmente visible */
+  transform: translateY(0); /* Vuelve a la posición original */
+  visibility: visible; /* Ahora es visible */
+  max-height: 50px; /* Asegúrate de que pueda expandirse */
+}
+
