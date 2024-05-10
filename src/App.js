@@ -1,11 +1,10 @@
+import { evaluate } from "mathjs";
 import { useState } from "react";
 import "./App.css";
 import Boton from "./components/Boton";
 import BotonClear from "./components/BotonClear";
 import Pantalla from "./components/Pantalla";
 import freCodeCampLogo from "./img/freecodecamp-logo.svg";
-import { evaluate } from 'mathjs';
-
 
 function App() {
   const [input, setInput] = useState("");
@@ -14,9 +13,17 @@ function App() {
     setInput(input + val);
   };
 
-  const calculaResultado = ()=>{
-    setInput(evaluate(input));
-  }
+  const calculaResultado = () => {
+    try {
+      // Limpiar la entrada para eliminar espacios u otros caracteres no deseados
+      const resultado = evaluate(input.replace(/\s+/g, ""));
+      setInput(resultado.toString()); // Asegurarse de que el resultado se convierte a string si es necesario
+    } catch (error) {
+      console.error("Error al evaluar la expresión:", error);
+      // Opcional: Mostrar un mensaje al usuario o simplemente no actualizar el input
+      setInput("Error"); // Así el usuario sabe que hubo un error
+    }
+  };
 
   return (
     <div className="App">
@@ -56,7 +63,7 @@ function App() {
           <Boton manejarClic={agregarInput}>/</Boton>
         </div>
         <div className="fila">
-          <BotonClear manejarClear={()=>(setInput(""))}>Clear</BotonClear>
+          <BotonClear manejarClear={() => setInput("")}>Clear</BotonClear>
         </div>
       </div>
     </div>
